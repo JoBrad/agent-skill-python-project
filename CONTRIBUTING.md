@@ -8,7 +8,7 @@ How Python code is written in this project. People and coding agents follow the 
 When two sources of guidance collide, the later one in this list wins.
 
 1. **Industry practice.** SOLID, DRY, YAGNI. Fix what was asked and note the rest rather than chasing it. One concern per change, no drive-by refactors of code the change does not otherwise touch.
-2. **The language's own conventions.** PEP 8, Python idioms, the standard library over a hand-rolled equivalent.
+2. **Standard Python conventions.** PyPA `pyproject.toml` specification, PEP 8, Python idioms, the standard library over a hand-rolled equivalent. All python-based tooling configuration should be in `pyproject.toml`.
 3. **This file.**
 4. **Conventions observed in the codebase.** When the code does something consistently and nobody wrote it down, match the code.
 5. **Explicit rules in `AGENTS.md`.** These override everything above. An anti-pattern or security flaw gets flagged for review, not followed or quietly worked around. Where the code consistently contradicts a written rule, raise it: one of the two is stale.
