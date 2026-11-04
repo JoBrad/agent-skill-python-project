@@ -1,0 +1,30 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Tool caches and reports
+.pytest_cache/
+.ruff_cache/
+.coverage
+coverage.json
+htmlcov/
+
+# Local environment and secrets
+.devbox/
+.env
+.envrc
+
+# Editor and agent local settings
+.vscode/launch.json
+settings.local.json

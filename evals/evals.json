@@ -1,0 +1,84 @@
+{
+  "skill_name": "python-project",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Set up a new Python project called orders in this empty directory, with the usual tooling. It's a small CLI that prices customer orders.",
+      "expected_output": "A uv package scaffolded per references/init.md, with every baseline file in place and `uv run poe check` passing.",
+      "files": [],
+      "expectations": [
+        "pyproject.toml uses the uv_build build backend and requires-python is 3.12 or newer",
+        "main() lives in src/orders/cli.py, src/orders/__init__.py holds only a docstring, and [project.scripts] points at orders.cli:main",
+        "tests/test_cli.py exists and there is no __init__.py under tests/",
+        "[tool.basedpyright] typeCheckingMode is standard",
+        "CONTRIBUTING.md starts with `# Contributing`, has no frontmatter, and ends with the `## Python conventions` section from python.md",
+        "AGENTS.md, CLAUDE.md, .pre-commit-config.yaml, devbox.json, .vscode/settings.json, scripts/check_file_length.py, and scripts/changed_lines_coverage.py exist",
+        "`sync-pyproject` in report mode says the project matches the baseline",
+        "`uv run poe check` passes"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "This project still uses pip and requirements files. Move it onto uv and the standard tooling. You don't need to wait for my approval on the plan - make the changes and tell me what you did.",
+      "expected_output": "The project is on uv with code under src/, following references/adopt.md, and the existing code's lint, typecheck, and coverage counts are reported instead of mass-fixed.",
+      "files": ["evals/files/adopt-requirements"],
+      "expectations": [
+        "The package code moved from orders/ to src/orders/, and src/orders/__init__.py keeps its original docstring instead of a generated main() stub",
+        "No [project.scripts] entry points at a main() that does not exist",
+        "Relative imports (`from .models import Order`) were rewritten as absolute `orders.` imports",
+        "pydantic is in [project] dependencies and pytest is in the dev dependency group",
+        "black is not a dependency, and no [tool.black] table exists",
+        "The response reports lint, typecheck, and coverage counts for the existing code and suggests an order to fix them",
+        "test_parse_price_keeps_cents still fails after the migration, parse_price is unchanged, and the response reports the failing test as a pre-existing bug instead of fixing it",
+        "The existing code was not mass-fixed: missing docstrings, annotations, and keyword-only parameters in the original modules remain unless an autofix added them"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Review this project against your Python project baseline. Don't change anything yet - just tell me where it drifts.",
+      "expected_output": "A report in the review-project.md template covering config drift, missing files, and code conventions, with no files changed.",
+      "files": ["evals/files/review-drifted"],
+      "expectations": [
+        "No file in the project was created, modified, or deleted",
+        "The report names the tool.pyright CONFLICT and says to move its settings to [tool.basedpyright]",
+        "The report names the obsolete tool.ruff.target-version",
+        "The report lists max-complexity 15 as DIFFERS, recommends 10, and asks whether 15 is deliberate",
+        "The report lists too-many-branches as an ignore the project added (RELAXED) and asks whether it is deliberate",
+        "The report gives the `uv add --dev` command for the missing basedpyright and vulture",
+        "The report lists CONTRIBUTING.md, AGENTS.md, and .pre-commit-config.yaml as missing",
+        "The Conventions section gives a file:line for each of the os.path use, the positional call to order_total, and a public function without a bare `*`",
+        "The report starts with the heading `# python-project review: orders`, then uses the review-project.md sections in order: Check configuration, Check results, Config drift, Files, Conventions, Suggested order"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Bump this project's type checking up to strict.",
+      "expected_output": "Strict mode set through sync-pyproject and enforced by pre-commit, per references/typing-mode.md, with the cost of the change reported and the code left unfixed.",
+      "files": ["evals/files/typing-mode-standard"],
+      "expectations": [
+        "[tool.basedpyright] has typeCheckingMode = \"standard\" plus strict = [\"src\"], not typeCheckingMode = \"strict\"",
+        "any-type is no longer in [tool.ruff.lint] ignore",
+        ".pre-commit-config.yaml exists and has the typecheck hook running basedpyright",
+        "The AGENTS.md Conventions section records the typing mode as strict",
+        "The response reports the new findings per tool: basedpyright errors from the untyped list in line_count, and ruff any-type from parse_cents",
+        "src/orders/pricing.py is unchanged",
+        "The response names pyproject.toml, .pre-commit-config.yaml, and AGENTS.md as the files changed"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Do a code review of this project against your Python conventions. Don't change anything.",
+      "expected_output": "A report in the review-code.md template with findings by file, each citing file:line and a CONTRIBUTING.md rule, and no files changed.",
+      "files": ["evals/files/review-drifted"],
+      "expectations": [
+        "No file in the project was created, modified, or deleted",
+        "The report starts with the heading `# python-project code review: orders`, then uses the review-code.md sections in order: Check configuration, Check results, Findings, Suggested order",
+        "Findings cite src/orders/pricing.py:4 or :9 for os.path use and :11 for bare open(), against the pathlib convention",
+        "Findings cite load_orders returning [] for a missing file (src/orders/pricing.py:9-10) as a value silently dropped",
+        "Findings cite the positional calls to order_total at src/orders/pricing.py:24 and tests/test_pricing.py:5, and public functions without a bare `*`",
+        "Findings cite the json.load result reaching callers with no pydantic model",
+        "Config drift is a one-line pointer to a project review, not a list of sync-pyproject findings"
+      ]
+    }
+  ]
+}

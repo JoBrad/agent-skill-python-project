@@ -1,0 +1,30 @@
+# Every hook runs through uv, so tool versions come from uv.lock and there is no
+# second version pin here to drift. `unsupported` is pre-commit's current name for
+# what it used to call `system`: run a command from the environment as-is.
+repos:
+  - repo: local
+    hooks:
+      - id: uv-lock
+        name: uv lock --check
+        entry: uv lock --check
+        language: unsupported
+        files: ^(pyproject\.toml|uv\.lock)$
+        pass_filenames: false
+      - id: ruff-check
+        name: ruff check
+        entry: uv run ruff check --fix --force-exclude
+        language: unsupported
+        types_or: [python, pyi]
+        require_serial: true
+      - id: ruff-format
+        name: ruff format
+        entry: uv run ruff format --force-exclude
+        language: unsupported
+        types_or: [python, pyi]
+        require_serial: true
+      - id: typecheck
+        name: basedpyright
+        entry: uv run basedpyright
+        language: unsupported
+        types_or: [python, pyi]
+        pass_filenames: false

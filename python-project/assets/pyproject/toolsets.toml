@@ -1,0 +1,175 @@
+#:schema ../../../schemas/toolsets.schema.json
+# What the python-project commands know about each tool.
+# Read by sync-pyproject.py
+
+[tool_selections]
+package-manager = "uv"
+lint = "ruff"
+format = "ruff"
+test = "pytest"
+coverage = "pytest-cov"
+typecheck = "basedpyright"
+deadcode = "vulture"
+tasks = "poethepoet"
+hooks = "pre-commit"
+
+[task_requirements]
+package-manager = []
+lint = ["lint"]
+format = ["format", "format-check"]
+test = ["test"]
+coverage = ["coverage", "coverage-diff"]
+typecheck = ["typecheck"]
+deadcode = ["deadcode"]
+tasks = ["file-length", "check"]
+hooks = []
+
+[packages.uv]
+display_name = "uv"
+functions = ["package-manager"]
+config_file = "tool.uv.toml"
+dev_dependency = false          # uv runs the project; it is not installed into it
+build_backend = "uv_build"
+
+[packages.uv.conflicting_settings]
+"tool.poetry" = "uv manages the project; move [tool.poetry] metadata to [project] and dependencies to uv"
+"tool.pdm" = "uv manages the project; move [tool.pdm] dependencies to uv"
+
+[packages.ruff]
+specifier = ">=0.17.1"
+display_name = "Ruff"
+functions = ["lint", "format"]
+config_file = "tool.ruff.toml"
+adds_to = ["tool.ruff.lint.select", "tool.ruff.lint.extend-select"]
+relaxes = ["tool.ruff.lint.ignore", "tool.ruff.lint.per-file-ignores.*"]
+
+[packages.ruff.tasks]
+lint = { help = "Lint with ruff", cmd = "ruff check" }
+format = { help = "Format, then apply ruff's safe fixes", sequence = [
+    { cmd = "ruff format" },
+    { cmd = "ruff check --fix" },
+] }
+format-check = { help = "Check formatting without changing files", cmd = "ruff format --check" }
+
+[packages.ruff.remove_if_present]
+"tool.ruff.target-version" = "ruff infers it from requires-python"
+
+[packages.ruff.conflicting_settings]
+"tool.black" = "ruff formats; move line-length to [tool.ruff]"
+"tool.isort" = "ruff sorts imports; move settings to [tool.ruff.lint.isort]"
+
+[packages.ruff.typing_modes]
+off = { "tool.ruff.lint.extend-select" = [] }
+basic = { "tool.ruff.lint.extend-select" = [
+    "missing-return-type-undocumented-public-function",
+] }
+standard = { "tool.ruff.lint.extend-select" = [
+    "ANN",
+], "tool.ruff.lint.ignore" = [
+    "any-type",
+] }
+strict = { "tool.ruff.lint.extend-select" = ["ANN"] }
+
+[packages.pytest]
+specifier = ">=9.1.1"
+display_name = "pytest"
+functions = ["test"]
+config_file = "tool.pytest.toml"
+
+[packages.pytest.tasks]
+test = { help = "Run the test suite", cmd = "pytest" }
+
+[packages.pytest.conflicting_settings]
+"tool.pytest.ini_options" = "move its settings into [tool.pytest]; values become TOML types (lists, not space-separated strings)"
+
+[packages.pytest-cov]
+specifier = ">=7.1.0"
+display_name = "coverage.py"
+functions = ["coverage"]
+config_file = "tool.coverage.toml"
+add_if_missing = ["tool.coverage.run.source"]
+
+[packages.pytest-cov.tasks]
+coverage = { help = "Run tests with coverage; fails under fail_under", cmd = "pytest --cov --cov-report=term-missing --cov-report=json" }
+coverage-diff = { help = "Coverage of lines changed since the merge base; fails under 90%", sequence = [
+    { cmd = "pytest --cov --cov-report=json --cov-fail-under=0 -q" },
+    { cmd = "python scripts/changed_lines_coverage.py" },
+] }
+
+[packages.vulture]
+specifier = ">=2.16"
+display_name = "Vulture"
+functions = ["deadcode"]
+config_file = "tool.vulture.toml"
+add_if_missing = ["tool.vulture.ignore_names"]
+
+[packages.vulture.tasks]
+deadcode = { help = "Report unused code", cmd = "vulture" }
+
+[packages.basedpyright]
+specifier = ">=1.40.2"
+display_name = "basedpyright"
+functions = ["typecheck"]
+config_file = "tool.basedpyright.toml"
+
+[packages.basedpyright.tasks]
+typecheck = { help = "Type-check at the mode in [tool.basedpyright]", cmd = "basedpyright" }
+
+[packages.basedpyright.conflicting_settings]
+"tool.pyright" = "move its settings to [tool.basedpyright]"
+"tool.mypy" = "basedpyright is the type checker; drop mypy or keep it as a deliberate second checker"
+
+# Strict mode applies strict rules to src/ only. Strict mode's extra rules fight
+# test code (fixtures, fakes), and ruff relaxes tests the same way.
+[packages.basedpyright.typing_modes]
+off = { "tool.basedpyright.typeCheckingMode" = "off" }
+basic = { "tool.basedpyright.typeCheckingMode" = "basic" }
+standard = { "tool.basedpyright.typeCheckingMode" = "standard" }
+strict = { "tool.basedpyright.typeCheckingMode" = "standard", "tool.basedpyright.strict" = [
+    "src",
+] }
+
+[packages.ty]
+display_name = "ty"
+functions = ["typecheck"]
+config_file = "tool.ty.toml"
+
+[packages.ty.typing_modes]
+off = { "tool.ty.terminal.error-on-warning" = false }
+basic = { "tool.ty.terminal.error-on-warning" = false }
+standard = { "tool.ty.terminal.error-on-warning" = true }
+strict = { "tool.ty.terminal.error-on-warning" = true, "tool.ty.rules.all" = "error" }
+
+[packages.pyrefly]
+display_name = "Pyrefly"
+functions = ["typecheck"]
+config_file = "tool.pyrefly.toml"
+
+# pyrefly names its middle preset "default".
+[packages.pyrefly.typing_modes]
+off = { "tool.pyrefly.preset" = "off" }
+basic = { "tool.pyrefly.preset" = "basic" }
+standard = { "tool.pyrefly.preset" = "default" }
+strict = { "tool.pyrefly.preset" = "strict" }
+
+[packages.poethepoet]
+specifier = ">=0.49.0"
+display_name = "Poe the Poet"
+functions = ["tasks"]
+
+[packages.poethepoet.tasks]
+file-length = { help = "Enforce the 500-line file limit", cmd = "python scripts/check_file_length.py" }
+check = { help = "Every check in turn", sequence = [
+    "lint",
+    "format-check",
+    "file-length",
+    "typecheck",
+    "coverage",
+    "deadcode",
+] }
+
+[packages.pre-commit]
+specifier = ">=4.7.0"
+display_name = "pre-commit"
+functions = ["hooks"]
+# No config_file: it is configured in .pre-commit-config.yaml.

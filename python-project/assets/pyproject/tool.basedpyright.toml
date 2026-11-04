@@ -1,0 +1,9 @@
+[tool.basedpyright]
+# basedpyright's VS Code extension reads this table too, so the editor and
+# `uv run basedpyright` agree.
+# One of: off, basic, standard. Strict mode is written as standard plus
+# `strict = ["src"]`, so tests stay at standard. Ruff's annotation rules follow it.
+typeCheckingMode = "standard"
+venvPath = "."
+venv = ".venv"
+include = ["src", "tests"]

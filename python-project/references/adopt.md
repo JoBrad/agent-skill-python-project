@@ -1,0 +1,11 @@
+# Adopt
+
+Move an existing project from another toolchain (pip and `requirements.txt`, poetry, hatch, setuptools) onto uv and the baseline.
+
+Adopt starts with a review: report first, then change what was approved. Before running any task in a project you did not set up, read its `[tool.poe]` tables, including any files `[tool.poe] include` names, and confirm each task runs what its name says. A task can run anything, so treat a project's tasks like its Makefile.
+
+1. Review first ([review-project.md](review-project.md)), and include the migration plan in the report: where the dependencies come from today and where the package code will live. A `requires-python` below 3.12 is a finding; raise it only with approval.
+2. After approval, move package code under `src/<package>/` when it is not there, and rewrite imports to absolute `<package>.` imports. This touches many files; list them in the report before doing it. Move the code before running `uv init`, so uv does not write a stub package where the real one belongs.
+3. Move dependencies into uv: `uv init --package --name <package>` in place when there is no `pyproject.toml` (check for a parent workspace first, as in Init step 1), then `uv add -r requirements.txt` and `uv add --dev -r requirements-dev.txt`. `uv init` leaves an existing `src/<package>/__init__.py` alone, but it still writes `[project.scripts] <package> = "<package>:main"`. Point that entry at the project's real entry point, or delete it if there is none. For poetry or hatch, carry the `[project]` metadata over by hand and drop the old tool's tables.
+4. Continue with steps 2, 3, 5, and 6 of [init.md](init.md). Skip Init step 4: it reshapes the stub `main()` that `uv init` writes into an empty package, and an adopted package has its own code. Keep existing config the user chose to keep.
+5. Existing code will not meet the baseline at once. Do not mass-fix it unasked. Report the counts from lint, typecheck, and coverage, and suggest the order: format, then autofixable lint, then the rest. A test that fails before the migration is a bug to report, not one to fix: confirm it fails on the original code, and list it in the report. An existing project below 90% coverage keeps its `fail_under` at its current number; `coverage-diff` holds new code to 90%.

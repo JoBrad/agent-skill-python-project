@@ -1,0 +1,7 @@
+[tool.vulture]
+paths = ["src"]
+# 60 keeps unused functions and classes in the report; at 80 and above vulture
+# only reports unused imports, variables, and unreachable code.
+min_confidence = 60
+# Entry points named in [project.scripts] look unused to vulture. List them here.
+ignore_names = ["main"]

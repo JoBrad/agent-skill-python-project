@@ -16,6 +16,10 @@ coverage.json
 # Devbox
 .devbox/
 
+# Agent dirs
+.agents/
+.claude/
+
 # Skill eval runs (skill-creator writes them next to the skill)
 python-project-workspace/
 
