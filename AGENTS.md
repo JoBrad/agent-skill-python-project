@@ -33,7 +33,7 @@ The skill is `python-project/`. Everything else in the repo is the development e
 |   ├── assets/
 |   |   Files the skill copies into a project, including assets/scripts/*.
 |   ├── references/
-|   |   Docs the skill reads. python.md is copied into a project as CONTRIBUTING.md.
+|   |   Docs the skill reads. python.md becomes the Python conventions section of a project's CONTRIBUTING.md.
 |   ├── src/python_project/
 |   |   Code the skill runs in place (`sync-pyproject`). Never copied into a project.
 |   ├── SKILL.md
@@ -53,7 +53,7 @@ The skill is `python-project/`. Everything else in the repo is the development e
 ├── CLAUDE.md
 |   Just includes a reference to this file.
 ├── CONTRIBUTING.md
-|   Copy of python-project/references/python.md, frontmatter stripped.
+|   This repo's conventions, then python-project/references/python.md, frontmatter stripped.
 ├── LICENSE
 |   License detail for this project.
 ├── README.md
@@ -87,7 +87,7 @@ There are instructions on using the `gh` CLI to install the skill in the README.
 
 ## Working on the Python code
 
-Read [CONTRIBUTING.md](CONTRIBUTING.md) before writing code. It holds the Python conventions for this project. Project-specific exceptions to it are listed under Conventions below, and they win.
+Read [CONTRIBUTING.md](CONTRIBUTING.md) before writing code or making a change. It holds this project's repo conventions (issues, branches, commits, pull requests) and its Python conventions. Project-specific exceptions to it are listed under Conventions below, and they win.
 
 ### Commands
 
