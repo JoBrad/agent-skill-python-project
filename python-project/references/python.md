@@ -88,3 +88,8 @@ Treat these as a prompt to restructure, not to raise the threshold or add a `noq
 - Defer abstraction until there is real duplication. Extract at the third copy, not the second. Read DRY as "do not repeat knowledge", not "never type a similar line twice".
 - Separate explicit per-case code beats a shared generic layer written on speculation.
 - Comments explain why, not what.
+
+## Markdown files
+
+- Do not hard-wrap prose. Write each paragraph or list item on one line, and leave wrapping to the renderer. Hard-wrapped lines turn a one-word edit into a multi-line diff.
+- In an ASCII file tree, list directories before files at each level, then sort each group in natural order (`file2` before `file10`). `tree --dirsfirst -v` produces this order.
