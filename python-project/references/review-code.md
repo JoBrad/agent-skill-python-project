@@ -1,6 +1,6 @@
 # Code review
 
-Review a project's code against the conventions in `references/python.md`, the file a project receives as `CONTRIBUTING.md`. A project review ([review-project.md](review-project.md)) centers on config and files; a code review centers on the code.
+Review a project's code against the conventions in `references/python.md`, which a project's `CONTRIBUTING.md` carries as its Python conventions section. A project review ([review-project.md](review-project.md)) centers on config and files; a code review centers on the code.
 
 Report only. Change nothing until the user approves.
 

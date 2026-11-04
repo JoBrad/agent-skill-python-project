@@ -5,8 +5,8 @@ description: >-
   against an opinionated baseline: uv for environments and dependencies, ruff for
   lint, format, and structural limits, pytest with 90% coverage on new code,
   basedpyright type checking at one of four modes, vulture dead-code checks,
-  pre-commit, Poe the Poet tasks, VS Code settings, and a CONTRIBUTING.md of
-  Python conventions. Use whenever someone wants to scaffold, bootstrap,
+  pre-commit, Poe the Poet tasks, VS Code settings, and a CONTRIBUTING.md of repo
+  and Python conventions. Use whenever someone wants to scaffold, bootstrap,
   standardize, or migrate a Python project (pip, requirements.txt, poetry,
   hatch), set up or fix uv/ruff/pytest/pyright/basedpyright/coverage config,
   raise or lower a project's type-checking strictness, or audit whether a repo
@@ -45,7 +45,7 @@ When checks fail on existing code the user did not ask you to fix, say so in one
 | Project file | Source in this skill | How it gets there |
 | --- | --- | --- |
 | `pyproject.toml` `[tool.*]` tables | `assets/pyproject/tool.*.toml`, picked by `assets/pyproject/toolsets.toml` | `sync-pyproject` (below) |
-| `CONTRIBUTING.md` | `references/python.md` | Copy without its frontmatter |
+| `CONTRIBUTING.md` | `assets/CONTRIBUTING.template.md`, then `references/python.md` | Fill in the repo sections from the user's answers, then append `python.md` without its frontmatter |
 | `AGENTS.md` | `assets/AGENTS.template.md` | Fill in; merge into an existing one |
 | `CLAUDE.md` | `assets/CLAUDE.md` | Copy (`@AGENTS.md`) unless one exists |
 | `README.md` | `assets/README.template.md` | Fill in; merge into an existing one |
