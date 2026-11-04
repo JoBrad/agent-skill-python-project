@@ -1,6 +1,6 @@
 # orders
 
-Read [CONTRIBUTING.md](CONTRIBUTING.md) before writing code. It holds the Python conventions for this project. Project-specific exceptions to it are listed under Conventions below, and they win.
+Read [CONTRIBUTING.md](CONTRIBUTING.md) before writing code or making a change. It holds this project's repo conventions (issues, branches, commits, pull requests) and its Python conventions. Project-specific exceptions to it are listed under Conventions below, and they win.
 
 ## Commands
 

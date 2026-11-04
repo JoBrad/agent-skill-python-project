@@ -11,7 +11,7 @@
         "main() lives in src/orders/cli.py, src/orders/__init__.py holds only a docstring, and [project.scripts] points at orders.cli:main",
         "tests/test_cli.py exists and there is no __init__.py under tests/",
         "[tool.basedpyright] typeCheckingMode is standard",
-        "CONTRIBUTING.md exists and does not start with a frontmatter block",
+        "CONTRIBUTING.md starts with `# Contributing`, has no frontmatter, and ends with the `## Python conventions` section from python.md",
         "AGENTS.md, CLAUDE.md, .pre-commit-config.yaml, devbox.json, .vscode/settings.json, scripts/check_file_length.py, and scripts/changed_lines_coverage.py exist",
         "`sync-pyproject` in report mode says the project matches the baseline",
         "`uv run poe check` passes"
