@@ -36,7 +36,7 @@
     {
       "id": 3,
       "prompt": "Review this project against your Python project baseline. Don't change anything yet - just tell me where it drifts.",
-      "expected_output": "A report in the review.md template covering config drift, missing files, and code conventions, with no files changed.",
+      "expected_output": "A report in the review-project.md template covering config drift, missing files, and code conventions, with no files changed.",
       "files": ["evals/files/review-drifted"],
       "expectations": [
         "No file in the project was created, modified, or deleted",
@@ -47,7 +47,7 @@
         "The report gives the `uv add --dev` command for the missing basedpyright and vulture",
         "The report lists CONTRIBUTING.md, AGENTS.md, and .pre-commit-config.yaml as missing",
         "The Conventions section gives a file:line for each of the os.path use, the positional call to order_total, and a public function without a bare `*`",
-        "The report starts with the heading `# python-project review: orders`, then uses the review.md sections in order: Check configuration, Check results, Config drift, Files, Conventions, Suggested order"
+        "The report starts with the heading `# python-project review: orders`, then uses the review-project.md sections in order: Check configuration, Check results, Config drift, Files, Conventions, Suggested order"
       ]
     },
     {
@@ -63,6 +63,21 @@
         "The response reports the new findings per tool: basedpyright errors from the untyped list in line_count, and ruff any-type from parse_cents",
         "src/orders/pricing.py is unchanged",
         "The response names pyproject.toml, .pre-commit-config.yaml, and AGENTS.md as the files changed"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Do a code review of this project against your Python conventions. Don't change anything.",
+      "expected_output": "A report in the review-code.md template with findings by file, each citing file:line and a CONTRIBUTING.md rule, and no files changed.",
+      "files": ["evals/files/review-drifted"],
+      "expectations": [
+        "No file in the project was created, modified, or deleted",
+        "The report starts with the heading `# python-project code review: orders`, then uses the review-code.md sections in order: Check configuration, Check results, Findings, Suggested order",
+        "Findings cite src/orders/pricing.py:4 or :9 for os.path use and :11 for bare open(), against the pathlib convention",
+        "Findings cite load_orders returning [] for a missing file (src/orders/pricing.py:9-10) as a value silently dropped",
+        "Findings cite the positional calls to order_total at src/orders/pricing.py:24 and tests/test_pricing.py:5, and public functions without a bare `*`",
+        "Findings cite the json.load result reaching callers with no pydantic model",
+        "Config drift is a one-line pointer to a project review, not a list of sync-pyproject findings"
       ]
     }
   ]
