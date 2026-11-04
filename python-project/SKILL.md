@@ -29,6 +29,15 @@ Changing an existing project's typing mode follows [typing-mode.md](references/t
 
 Adopt also starts with a review: report first, then change what was approved. Never overwrite a project's README prose, `AGENTS.md` architecture notes, or project-specific config to match a template. Merge into them.
 
+## Reporting back
+
+Every mode ends with a reply to the user. Pick the shape by how much detail each entry carries:
+
+- A high-level view of the project, such as the files Init created or where Adopt moved the code, is a file tree: directories first, natural order, and at most one short summary per entry, aligned after its name.
+- Detailed entries, such as check results, findings, or files changed, go in a table or a list.
+
+When checks fail on existing code the user did not ask you to fix, say so in one line, then show the results: "Check results are displayed below. I didn't fix existing code because you didn't ask me to."
+
 `<SKILL_DIR>` below means this skill's directory.
 
 ## What the baseline contains
