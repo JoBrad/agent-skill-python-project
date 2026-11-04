@@ -1,0 +1,4 @@
+[tool.ty.terminal]
+# Set by typing mode (toolsets.toml): false for off and basic, true for standard
+# and strict. Strict mode also sets [tool.ty.rules] all = "error".
+error-on-warning = true

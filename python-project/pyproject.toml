@@ -1,0 +1,18 @@
+# The skill's runtime package. SKILL.md runs it with `uv run --project <skill>`,
+# which builds <skill>/.venv from this file and uv.lock on first use. Dev tooling
+# lives in the repo-root pyproject.toml, which this file never reads.
+[project]
+name = "python-project"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "packaging>=26.3",
+    "tomlkit>=0.13.3",
+]
+
+[project.scripts]
+sync-pyproject = "python_project.sync_pyproject:main"
+
+[build-system]
+requires = ["uv_build>=0.13.4,<0.14.0"]
+build-backend = "uv_build"

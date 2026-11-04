@@ -1,0 +1,24 @@
+# Init
+
+Scaffold a new project on the baseline.
+
+Starting point: an empty directory, or one with no `pyproject.toml`. It may already be a git repository.
+
+1. Confirm the package name and the Python floor, which is 3.12 or newer: `CONTRIBUTING.md` uses the `type` statement. `uv init` picks the newest installed Python unless told otherwise.
+   ```bash
+   uv init --package --name <name> [--python 3.14] .
+   ```
+2. Run `sync-pyproject` in report mode. Run the `uv add --dev` command it prints (add `--with ty` or `--with pyrefly` to the script first if wanted). Then apply the tables:
+   ```bash
+   uv run --project <SKILL_DIR> sync-pyproject --project . --write
+   ```
+3. Copy and fill in the files from the baseline table in `SKILL.md`. Strip the frontmatter when writing `CONTRIBUTING.md`:
+   ```bash
+   awk 'NR==1 && /^---$/ {fm=1; next} fm && /^---$/ {fm=0; next} !fm' \
+     <SKILL_DIR>/references/python.md > CONTRIBUTING.md
+   ```
+   Set the `run` script in `devbox.json` and the `<script-name>` in README and `AGENTS.md` to the command in `[project.scripts]`.
+4. Reshape what `uv init` generated, which fails the baseline's lint: it puts `main()` in `src/<package>/__init__.py` with no docstrings. Move `main` to `src/<package>/cli.py` with a module and function docstring, leave `__init__.py` holding only a docstring, and point `[project.scripts]` at `<package>.cli:main`. Then write `tests/test_cli.py` for it, so coverage starts above its threshold.
+5. `uv run pre-commit install`. If the directory is not a git repository, say the hooks are inactive until it is.
+6. Verify, and fix anything that fails: `uv run poe check`, which runs every check in turn.
+7. Report what was created.

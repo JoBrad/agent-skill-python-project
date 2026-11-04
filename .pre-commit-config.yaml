@@ -1,0 +1,40 @@
+# Every hook runs through uv, so tool versions come from uv.lock and there is no
+# second version pin here to drift. `unsupported` is pre-commit's current name for
+# what it used to call `system`: run a command from the environment as-is.
+# This repo only: eval fixtures are other projects with their own pyproject.toml,
+# which ruff would use for them instead of the root config's exclude.
+exclude: ^evals/files/
+repos:
+  - repo: local
+    hooks:
+      - id: uv-lock
+        name: uv lock --check
+        entry: uv lock --check
+        language: unsupported
+        files: ^(pyproject\.toml|uv\.lock)$
+        pass_filenames: false
+      # The skill carries its own uv.lock, which the root lock does not cover.
+      - id: uv-lock-skill
+        name: uv lock --check (skill)
+        entry: uv lock --check --project python-project
+        language: unsupported
+        files: ^python-project/(pyproject\.toml|uv\.lock)$
+        pass_filenames: false
+      - id: ruff-check
+        name: ruff check
+        entry: uv run ruff check --fix --force-exclude
+        language: unsupported
+        types_or: [python, pyi]
+        require_serial: true
+      - id: ruff-format
+        name: ruff format
+        entry: uv run ruff format --force-exclude
+        language: unsupported
+        types_or: [python, pyi]
+        require_serial: true
+      - id: typecheck
+        name: basedpyright
+        entry: uv run basedpyright
+        language: unsupported
+        types_or: [python, pyi]
+        pass_filenames: false

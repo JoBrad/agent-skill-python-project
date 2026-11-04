@@ -1,0 +1,10 @@
+[tool.pytest]
+testpaths = ["tests"]
+# importlib mode plus pythonpath = ["."] lets tests import shared helpers as
+# `from tests.factories import ...` without any __init__.py files, and lets two
+# test files share a name in different folders.
+addopts = ["--import-mode=importlib", "-ra"]
+pythonpath = ["."]
+# Turns on strict_config, strict_markers, strict_xfail, and
+# strict_parametrization_ids.
+strict = true

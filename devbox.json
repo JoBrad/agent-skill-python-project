@@ -1,0 +1,22 @@
+{
+  "$schema": "https://raw.githubusercontent.com/jetify-com/devbox/0.19.0/.schema/devbox.schema.json",
+  "packages": ["uv@0.13.5"],
+  "shell": {
+    "init_hook": [],
+    "scripts": {
+      "install": ["uv sync", "uv run pre-commit install"],
+      "sync": "uv sync",
+      "run": "uv run --project python-project sync-pyproject --project .",
+      "test": "uv run poe test",
+      "lint": "uv run poe lint",
+      "file-length": "uv run poe file-length",
+      "format": "uv run poe format",
+      "format-check": "uv run poe format-check",
+      "typecheck": "uv run poe typecheck",
+      "coverage": "uv run poe coverage",
+      "coverage-diff": "uv run poe coverage-diff",
+      "deadcode": "uv run poe deadcode",
+      "check": "uv run poe check"
+    }
+  }
+}

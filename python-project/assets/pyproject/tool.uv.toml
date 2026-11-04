@@ -1,0 +1,3 @@
+[tool.uv]
+# uv refuses to run this project with an older uv. 0.13.4 carries a security fix.
+required-version = ">=0.13.4"

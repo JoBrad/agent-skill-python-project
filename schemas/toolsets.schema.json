@@ -1,0 +1,251 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "toolsets.schema.json",
+  "title": "python-project toolsets",
+  "description": "Describes tool selections and their configurations.",
+  "type": "object",
+  "required": [
+    "tool_selections",
+    "task_requirements",
+    "packages"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "tool_selections": {
+      "description": "The selected toolsets for each function.",
+      "type": "object",
+      "propertyNames": {
+        "$ref": "#/$defs/functions"
+      },
+      "required": [
+        "package-manager",
+        "lint",
+        "format",
+        "test",
+        "coverage",
+        "typecheck",
+        "deadcode",
+        "tasks",
+        "hooks"
+      ],
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "task_requirements": {
+      "description": "The Poe tasks each function must provide, keyed by function. The selected package supplies them, and so must any alternative to it.",
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "uniqueItems": true
+      }
+    },
+    "packages": {
+      "description": "What the commands know about each package, keyed by package name.",
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/package"
+      }
+    }
+  },
+  "$defs": {
+    "functions": {
+      "description": "The functions a package can fulfill.",
+      "type": "string",
+      "enum": [
+        "package-manager",
+        "lint",
+        "format",
+        "test",
+        "coverage",
+        "typecheck",
+        "deadcode",
+        "tasks",
+        "hooks"
+      ]
+    },
+    "dottedPath": {
+      "description": "A dotted key path into pyproject.toml, such as tool.ruff.lint.select.",
+      "type": "string",
+      "pattern": "^tool(\\.[A-Za-z0-9_-]+)+$"
+    },
+    "pathMessages": {
+      "type": "object",
+      "propertyNames": {
+        "$ref": "#/$defs/dottedPath"
+      },
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "settings": {
+      "description": "Values keyed by dotted path. A list adds its entries; any other value sets the key.",
+      "type": "object",
+      "propertyNames": {
+        "$ref": "#/$defs/dottedPath"
+      }
+    },
+    "task": {
+      "description": "A Poe task: a plain command or a sequence. No shell, script, or expr tasks, which run arbitrary code and are harder to audit.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "help": {
+          "type": "string"
+        },
+        "cmd": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sequence": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "anyOf": [
+              {
+                "type": "string",
+                "description": "The name of another task."
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "cmd"
+                ],
+                "properties": {
+                  "cmd": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "oneOf": [
+        {
+          "required": [
+            "cmd"
+          ]
+        },
+        {
+          "required": [
+            "sequence"
+          ]
+        }
+      ]
+    },
+    "package": {
+      "type": "object",
+      "required": [
+        "display_name",
+        "functions"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "display_name": {
+          "description": "How people see it named.",
+          "type": "string"
+        },
+        "functions": {
+          "description": "The functions the package can fill.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/functions"
+          },
+          "uniqueItems": true
+        },
+        "specifier": {
+          "description": "PEP 440 version constraint, e.g. \">=9.1.1\": the oldest version the baseline was verified with. Raise it only when the config needs a newer feature, not on every release. A locked version outside it is reported VERSION. Without one, `uv add --dev` picks the latest and the project's uv.lock pins it.",
+          "type": "string",
+          "minLength": 1
+        },
+        "config_file": {
+          "description": "Its [tool.*] tables, in assets/pyproject/. Absent when the package is not configured in pyproject.toml.",
+          "type": "string",
+          "pattern": "^tool\\.[A-Za-z0-9_.-]+\\.toml$"
+        },
+        "dev_dependency": {
+          "description": "false when the package is not added to the dev group.",
+          "type": "boolean"
+        },
+        "build_backend": {
+          "description": "The build backend a project should use.",
+          "type": "string"
+        },
+        "tasks": {
+          "description": "Poe tasks the package supplies, keyed by task name and written to [tool.poe.tasks].",
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/task"
+          }
+        },
+        "add_if_missing": {
+          "description": "Keys the config file seeds once. After that, the project's value is never compared.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/dottedPath"
+          },
+          "uniqueItems": true
+        },
+        "remove_if_present": {
+          "description": "Superseded keys, each with the reason. Reported OBSOLETE and removed on --write.",
+          "$ref": "#/$defs/pathMessages"
+        },
+        "conflicting_settings": {
+          "description": "Keys that clash with this package, each with what to do. Reported CONFLICT and never changed: they need moving by hand.",
+          "$ref": "#/$defs/pathMessages"
+        },
+        "adds_to": {
+          "description": "Rule lists a project may add entries to. Only the baseline's entries are checked. A trailing `*` matches any key.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^tool(\\.[A-Za-z0-9_-]+)+(\\.\\*)?$"
+          },
+          "uniqueItems": true
+        },
+        "relaxes": {
+          "description": "Lists whose entries turn checks off. A project's extra entries are reported RELAXED for review. A trailing `*` matches any key.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^tool(\\.[A-Za-z0-9_-]+)+(\\.\\*)?$"
+          },
+          "uniqueItems": true
+        },
+        "typing_modes": {
+          "description": "Settings per typing mode. A key or entry another mode sets, and the current mode does not, is reported EXTRA and removed.",
+          "type": "object",
+          "required": [
+            "off",
+            "basic",
+            "standard",
+            "strict"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "off": {
+              "$ref": "#/$defs/settings"
+            },
+            "basic": {
+              "$ref": "#/$defs/settings"
+            },
+            "standard": {
+              "$ref": "#/$defs/settings"
+            },
+            "strict": {
+              "$ref": "#/$defs/settings"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,6 @@
+[tool.pyrefly]
+# Set by typing mode (toolsets.toml): off, basic, default (for standard), or strict.
+preset = "default"
+project-includes = ["src", "tests"]
+# Lets `from tests.factories import ...` resolve, matching pytest's pythonpath.
+search-path = ["."]
