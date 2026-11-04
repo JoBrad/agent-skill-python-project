@@ -22,8 +22,6 @@ The skill is `python-project/`. Everything else in the repo is the development e
 
 ```txt
 .
-├── .agents/projects/
-|   Tracked work on this repo, kept with the `projects` skill. Not part of the skill.
 ├── .vscode/
 |   From the skill's own assets. Not part of the skill.
 ├── evals/
