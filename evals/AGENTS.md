@@ -20,6 +20,8 @@ Ask an agent to run the evals with `anthropic-skills:skill-creator` (Anthropic's
 
 Run output goes to `python-project-workspace/` at the repo root, which is gitignored.
 
+Copy each fixture to a directory outside this repo before a run, and run the init evals in an empty directory outside it too. Inside the repo, uv finds the root `pyproject.toml`: `uv init` registers the run as a workspace member and rewrites the root `uv.lock`. Grading files and run responses can stay in `python-project-workspace/`.
+
 ## Changing a fixture
 
 A fixture's findings are part of its eval's expectations. After changing one, check it still produces them:
