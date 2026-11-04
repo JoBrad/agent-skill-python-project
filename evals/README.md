@@ -6,7 +6,7 @@ Tests for the skill itself: prompts a user might give, run by an agent with and 
 
 - `evals.json`: the eval set, in the format the Anthropic `skill-creator` skill reads. Each eval has a `prompt`, an `expected_output`, the `files` it starts from, and `expectations` a grader checks.
 - `files/`: starting projects. Each run copies one into a scratch directory, so an eval never changes the fixture.
-    - `adopt-requirements/`: pip and requirements files, with a flat package and relative imports.
+    - `adopt-requirements/`: pip and requirements files, with a flat package, relative imports, and a `__main__.py` with no `main()` function.
     - `review-drifted/`: a uv project off the baseline in known ways: a `[tool.pyright]` table, an obsolete `target-version`, a looser `max-complexity`, an added ignore, missing dev tools, and code with positional calls and `os.path`.
     - `typing-mode-standard/`: a project on the baseline at `standard`, with code that fails `strict` in both basedpyright and ruff.
 

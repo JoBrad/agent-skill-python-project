@@ -13,7 +13,7 @@
         "[tool.basedpyright] typeCheckingMode is standard",
         "CONTRIBUTING.md exists and does not start with a frontmatter block",
         "AGENTS.md, CLAUDE.md, .pre-commit-config.yaml, devbox.json, .vscode/settings.json, scripts/check_file_length.py, and scripts/changed_lines_coverage.py exist",
-        "The [tool.*] tables were written by sync-pyproject, not copied by hand from assets/pyproject/",
+        "`sync-pyproject` in report mode says the project matches the baseline",
         "`uv run poe check` passes"
       ]
     },
@@ -41,11 +41,11 @@
         "No file in the project was created, modified, or deleted",
         "The report names the tool.pyright CONFLICT and says to move its settings to [tool.basedpyright]",
         "The report names the obsolete tool.ruff.target-version",
-        "The report presents max-complexity = 15 as a question for the user, not as an order to change it",
+        "The report lists max-complexity 15 as DIFFERS, recommends 10, and asks whether 15 is deliberate",
         "The report lists too-many-branches as an ignore the project added (RELAXED) and asks whether it is deliberate",
         "The report gives the `uv add --dev` command for the missing basedpyright and vulture",
         "The report lists CONTRIBUTING.md, AGENTS.md, and .pre-commit-config.yaml as missing",
-        "The Conventions section cites src/orders/pricing.py for os.path use, the positional call to order_total, and public functions without a bare `*`",
+        "The Conventions section gives a file:line for each of the os.path use, the positional call to order_total, and a public function without a bare `*`",
         "The report uses the review.md headings: Config drift, Files, Conventions, Suggested order"
       ]
     },
@@ -61,7 +61,7 @@
         "The AGENTS.md Conventions section records the typing mode as strict",
         "The response reports the new findings per tool: basedpyright errors from the untyped list in line_count, and ruff any-type from parse_cents",
         "src/orders/pricing.py is unchanged",
-        "The response lists the files changed for enforcement"
+        "The response names pyproject.toml, .pre-commit-config.yaml, and AGENTS.md as the files changed"
       ]
     }
   ]
