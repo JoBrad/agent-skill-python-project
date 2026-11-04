@@ -1,6 +1,6 @@
-# Review
+# Project review
 
-Report how an existing uv-managed project drifts from the baseline.
+Report how an existing uv-managed project drifts from the baseline: its config, files, and layout, with a sample of its code. For a code review, follow [review-code.md](review-code.md) instead.
 
 Report only. Change nothing until the user approves.
 
@@ -46,6 +46,3 @@ Report only. Change nothing until the user approves.
 <numbered changes, smallest blast radius first>
 ```
 
-## Code review
-
-A request to review the project, or to review it against the baseline, is the review above: it centers on config and files. A request for a code review centers on the code instead. Read every module the request covers, not a sample, against `references/python.md`, and report findings by file, each with file:line and the rule it breaks. Keep the Check configuration and Check results sections, and reduce Config drift and Files to a one-line pointer to a full review.
