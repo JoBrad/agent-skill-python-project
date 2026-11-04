@@ -47,7 +47,7 @@
         "The report gives the `uv add --dev` command for the missing basedpyright and vulture",
         "The report lists CONTRIBUTING.md, AGENTS.md, and .pre-commit-config.yaml as missing",
         "The Conventions section gives a file:line for each of the os.path use, the positional call to order_total, and a public function without a bare `*`",
-        "The report uses the review.md headings: Config drift, Files, Conventions, Suggested order"
+        "The report starts with the heading `# python-project review: orders`, then uses the review.md sections in order: Check configuration, Check results, Config drift, Files, Conventions, Suggested order"
       ]
     },
     {

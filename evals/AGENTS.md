@@ -22,6 +22,8 @@ Run output goes to `python-project-workspace/` at the repo root, which is gitign
 
 Copy each fixture to a directory outside this repo before a run, and run the init evals in an empty directory outside it too. Inside the repo, uv finds the root `pyproject.toml`: `uv init` registers the run as a workspace member and rewrites the root `uv.lock`. Grading files and run responses can stay in `python-project-workspace/`.
 
+Ask each run to save, next to its response, a `commands.md` listing every shell command it ran, in order, so a grader can check how a result was produced. Its first line should say that it is the run's own command log, not commands for the user to run.
+
 ## Changing a fixture
 
 A fixture's findings are part of its eval's expectations. After changing one, check it still produces them:
