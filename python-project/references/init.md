@@ -4,9 +4,9 @@ Scaffold a new project on the baseline.
 
 Starting point: an empty directory, or one with no `pyproject.toml`. It may already be a git repository.
 
-1. Confirm the package name and the Python floor, which is 3.12 or newer: `CONTRIBUTING.md` uses the `type` statement. `uv init` picks the newest installed Python unless told otherwise.
+1. Confirm the package name and the Python floor, which is 3.12 or newer: `CONTRIBUTING.md` uses the `type` statement. `uv init` picks the newest installed Python unless told otherwise. If a parent directory has a `pyproject.toml`, `uv init` adds the new project to it as a workspace member and rewrites its `uv.lock`: ask whether the new project should join that workspace, and if not, pass `--no-workspace`.
    ```bash
-   uv init --package --name <name> [--python 3.14] .
+   uv init --package --name <name> [--python 3.14] [--no-workspace] .
    ```
 2. Run `sync-pyproject` in report mode. Run the `uv add --dev` command it prints (add `--with ty` or `--with pyrefly` to the script first if wanted). Then apply the tables:
    ```bash
