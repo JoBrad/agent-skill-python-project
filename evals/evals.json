@@ -29,6 +29,7 @@
         "pydantic is in [project] dependencies and pytest is in the dev dependency group",
         "black is not a dependency, and no [tool.black] table exists",
         "The response reports lint, typecheck, and coverage counts for the existing code and suggests an order to fix them",
+        "test_parse_price_keeps_cents still fails after the migration, parse_price is unchanged, and the response reports the failing test as a pre-existing bug instead of fixing it",
         "The existing code was not mass-fixed: missing docstrings, annotations, and keyword-only parameters in the original modules remain unless an autofix added them"
       ]
     },
