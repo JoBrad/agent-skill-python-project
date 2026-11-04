@@ -1,0 +1,33 @@
+# Python-specific files and directories
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+.venv/
+build/
+dist/
+wheels/
+htmlcov/
+venv/
+*.egg-info
+*.py[cod]
+.coverage
+coverage.json
+
+# Devbox
+.devbox/
+
+# Skill eval runs (skill-creator writes them next to the skill)
+python-project-workspace/
+
+# System-specific files
+.DS_Store
+Thumbs.db
+
+# Secrets and env files
+.env
+.envrc
+*.secret
+
+# Editor and agent local settings
+.vscode/launch.json
+settings.local.json
