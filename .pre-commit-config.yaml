@@ -1,5 +1,5 @@
-# Every hook runs through uv, so tool versions come from uv.lock and there is no
-# second version pin here to drift. `unsupported` is pre-commit's current name for
+# Every hook but gitleaks runs through uv, so tool versions come from uv.lock and
+# there is no second version pin here to drift. gitleaks runs from PATH. `unsupported` is pre-commit's current name for
 # what it used to call `system`: run a command from the environment as-is.
 # This repo only: eval fixtures are other projects with their own pyproject.toml,
 # which ruff would use for them instead of the root config's exclude.
@@ -38,3 +38,11 @@ repos:
         language: unsupported
         types_or: [python, pyi]
         pass_filenames: false
+      # This repo only: scans the staged diff, fixtures included, so it ignores the
+      # top-level exclude and runs on every commit.
+      - id: gitleaks
+        name: gitleaks
+        entry: gitleaks git --pre-commit --staged --redact --no-banner .
+        language: unsupported
+        pass_filenames: false
+        always_run: true
