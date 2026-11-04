@@ -12,7 +12,7 @@ Starting point: an empty directory, or one with no `pyproject.toml`. It may alre
    ```bash
    uv run --project <SKILL_DIR> sync-pyproject --project . --write
    ```
-3. Copy and fill in the files from the baseline table in `SKILL.md`. For `CONTRIBUTING.md`, ask the user once, in one message, for the repo conventions its template asks about: where issues go, a code of conduct, the default branch and whether direct commits are allowed, branch naming, commit message format, pull requests and review, and the secret scanner. Fill in the template from the answers, and delete any section the user gave nothing for rather than inventing policy. Then append the Python conventions without their frontmatter:
+3. Copy and fill in the files from the baseline table in `SKILL.md`. For `CONTRIBUTING.md`, ask the user once, in one message, for the repo conventions its template asks about: where issues go, a code of conduct, the default branch and whether direct commits are allowed, branch naming, commit message format, and pull requests and review. Fill in the template from the answers, and delete any section the user gave nothing for rather than inventing policy. Then append the Python conventions without their frontmatter:
    ```bash
    awk 'NR==1 && /^---$/ {fm=1; next} fm && /^---$/ {fm=0; next} !fm' \
      <SKILL_DIR>/references/python.md >> CONTRIBUTING.md
