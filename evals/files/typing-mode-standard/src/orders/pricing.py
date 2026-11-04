@@ -13,7 +13,9 @@ def load_orders(*, path: Path) -> list[dict[str, Any]]:
 
 def order_total(*, order: dict[str, Any]) -> int:
     """Return the total of an order's lines in cents."""
-    return sum(line["price"] * line["quantity"] for line in order["lines"])
+    return sum(
+        parse_cents(value=line["price"]) * line["quantity"] for line in order["lines"]
+    )
 
 
 def parse_cents(*, value: Any) -> int:

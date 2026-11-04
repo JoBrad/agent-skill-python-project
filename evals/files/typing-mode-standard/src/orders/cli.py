@@ -4,10 +4,11 @@ import sys
 
 from pathlib import Path
 
-from orders.pricing import load_orders, order_total
+from orders.pricing import line_count, load_orders, order_total
 
 
 def main() -> None:
-    """Print the total of each order in the file named on the command line."""
+    """Print the total of each non-empty order in the file named on the command line."""
     for order in load_orders(path=Path(sys.argv[1])):
-        print(order["id"], order_total(order=order))
+        if line_count(lines=order["lines"]):
+            print(order["id"], order_total(order=order))
