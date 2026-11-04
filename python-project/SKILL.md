@@ -22,7 +22,7 @@ Set up, migrate, or review a Python project against one baseline. Pick the mode,
 | --- | --- | --- |
 | **Init** | An empty directory, or one with no `pyproject.toml`. Scaffold it. | [init.md](references/init.md) |
 | **Adopt** | An existing project on another toolchain (pip and `requirements.txt`, poetry, hatch, setuptools). Move it onto uv and the baseline. | [adopt.md](references/adopt.md) |
-| **Review** | An existing uv-managed project. Report drift from the baseline and stop. Apply changes only after the user approves them. | [review.md](references/review.md) |
+| **Review** | An existing uv-managed project. Report drift from the baseline and stop. Apply changes only after the user approves them. A request for a code review follows its Code review section. | [review.md](references/review.md) |
 
 Changing an existing project's typing mode follows [typing-mode.md](references/typing-mode.md).
 
