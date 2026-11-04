@@ -9,11 +9,11 @@ Open an issue at [JoBrad/agent-skill-python-project](https://github.com/JoBrad/a
 ## Making changes
 
 - `main` is the default branch. Never commit to it directly; every change reaches `main` through a pull request, and the maintainer merges.
-- Name branches `<type>/<description>` per [Conventional Branch](https://conventionalbranch.org/) v1.1.0: `feature/`, `bugfix/`, `hotfix/`, `release/`, `chore/`, or `docs/`, then a lowercase, hyphenated description.
-- Keep a branch to one theme, and keep it short-lived.
-- Commit messages: an imperative subject under 60 characters, a blank line, then a body that says why. A commit with code an agent wrote, in whole or in part, ends with a `Co-Authored-By:` trailer naming that agent.
-- Scan every commit for secrets with gitleaks before making it: `gitleaks git --pre-commit --staged --redact --no-banner .`
-- A pull request says why the change is needed, what changed per file or function, and how it was verified.
+- Branch names should follow the convention `<type>/<description>` or `<type>/<multi-word-description>`. Prefixes follow [Conventional Branch](https://conventionalbranch.org/) v1.1.0: `feature/`, `bugfix/`, `hotfix/`, `release/`, `chore/`, or `docs/`, then a lower-kebab-cased description.
+- Branches should not be a Beatles song: keep a branch's changes focused on one theme, vs a long and winding road.
+- Commit messages: an imperative subject under 60 characters, a blank line, then a body that says why. A commit with code an agent wrote, in whole or in part, ends with a `Co-Authored-By:` trailer followed by the agent's name.
+- Respect all pre-commit hooks, even if you manually run them vs setting up pre-commit on your machine.
+- A pull request should clearly state why the change is needed, what was changed per file and/or function, which tests were added or modified, and an output of all tests and test coverage report.
 
 ## Python conventions
 
