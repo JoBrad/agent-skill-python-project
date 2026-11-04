@@ -38,6 +38,10 @@ Every mode ends with a reply to the user. Pick the shape by how much detail each
 
 When checks fail on existing code the user did not ask you to fix, say so in one line, then show the results: "Check results are displayed below. I didn't fix existing code because you didn't ask me to."
 
+## Secrets
+
+Keep secrets out of everything you write: no keys, tokens, passwords, or connection strings in project files, config, tests, or examples, and nothing that needs privileged access to run. If a scanner such as `gitleaks` is installed, you may use it to check your changes. A secret already in the project is a finding: report its file and line, never its value.
+
 `<SKILL_DIR>` below means this skill's directory.
 
 ## What the baseline contains
